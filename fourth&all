@@ -1,0 +1,42 @@
+#replace ham as spam and spam as not spam
+df['v1'] = df['v1'].replace(['ham','spam'],['not spam','spam'])
+
+
+5
+vo =df['v2']
+vt =df['v1']
+
+
+6
+(vo_train,vo_test,vt_train,vt_test) = train_test_split(vo,vt,test_size=0.2)
+
+
+7
+cv = CountVectorizer(stop_words='english')
+cv.fit_transform(vo_train)
+
+
+
+8
+#create the model
+from sklearn.naive_bayes import MultinomialNB
+model = MultinomialNB()
+model.fit(cv.transform(vo_train),vt_train)
+
+
+
+9
+#test our model
+cv.transform(vo_test)
+# to view score
+#print(model.score(cv.transform(vo_test),vt_test))
+
+
+
+10
+#predict data
+def predict(vo):
+    input_vo = cv.transform([vo]).toarray()
+    print(model.predict(input_vo)) # Fixed: predicting on input_vo, not vo
+    return model.predict(input_vo)
+output = predict('congrats , you won the lottery')
