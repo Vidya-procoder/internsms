@@ -1,0 +1,31 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+#import streamlit as st
+
+!pip install pandas
+# %%
+# Check if the file exists in the current directory
+import os
+if os.path.exists("/content/newdataset.csv"):
+    # Try reading the file with 'latin-1' encoding
+    try:
+        df = pd.read_csv("/content/newdataset.csv", encoding='latin-1')
+    except UnicodeDecodeError:
+        # If 'latin-1' fails, try 'cp1252'
+        try:
+            df = pd.read_csv("/content/newdataset.csv", encoding='cp1252')
+        except UnicodeDecodeError:
+            # If both fail, print an error message
+            print("Error: Could not decode file with common encodings. Please specify the correct encoding.")
+            df = pd.DataFrame()  # Assign an empty DataFrame to df
+else:
+    # If not, print an error message
+    print("Error: File not found. Please check the file path.")
+    df = pd.DataFrame()  # Assign an empty DataFrame to df
+
+# Display the first 5 rows of the DataFrame
+df.shape
